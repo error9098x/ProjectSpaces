@@ -1,4 +1,4 @@
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
@@ -14,19 +14,19 @@ const newspapers = [
     },
 
     {
-           name: 'guardian',
-              address: 'https://www.theguardian.com/environment/climate-crisis',
-              base: ''
+        name: 'guardian',
+        address: 'https://www.theguardian.com/environment/climate-crisis',
+        base: ''
     },
     {
-         name: 'telegraph',
-            address: 'https://www.telegraph.co.uk/climate-change',
-            base: 'https://www.telegraph.co.uk'
+        name: 'telegraph',
+        address: 'https://www.telegraph.co.uk/climate-change',
+        base: 'https://www.telegraph.co.uk'
     },
     {
-              name: 'independent',
-                    address: 'https://www.independent.co.uk/topic/climate-change',
-                    base: 'https://www.independent.co.uk'
+        name: 'independent',
+        address: 'https://www.independent.co.uk/topic/climate-change',
+        base: 'https://www.independent.co.uk'
     },
     {
         name: 'dailymail',
@@ -35,14 +35,14 @@ const newspapers = [
     }
     ,
     {
-         name: 'express',
-            address: 'https://www.express.co.uk/latest/climate-change',
-            base: 'https://www.express.co.uk'
+        name: 'express',
+        address: 'https://www.express.co.uk/latest/climate-change',
+        base: 'https://www.express.co.uk'
     },
     {
-            name: 'mirror',
-                address: 'https://www.mirror.co.uk/all-about/climate-change',
-                base: ''
+        name: 'mirror',
+        address: 'https://www.mirror.co.uk/all-about/climate-change',
+        base: ''
     },
     { name: 'nytimes', address: 'https://www.nytimes.com/international/section/climate', base: 'https://www.nytimes.com' },
     { name: 'latimes', address: 'https://www.latimes.com/environment', base: 'https://www.latimes.com' },
@@ -64,20 +64,20 @@ const articles = []
 
 newspapers.forEach(newspaper => {
     axios.get(newspaper.address).then(response => {
-       const html = response.data
-       const $ = cheerio.load(html)
+        const html = response.data
+        const $ = cheerio.load(html)
 
-       $('a:contains("climate")',html).each(function() {
-        const title = $(this).text().trim()
-        const url = $(this).attr('href')
-        
-        articles.push({
-            title,
-            url: newspaper.base+url,
-            source: newspaper.name
+        $('a:contains("climate")', html).each(function () {
+            const title = $(this).text().trim()
+            const url = $(this).attr('href')
+
+            articles.push({
+                title,
+                url: newspaper.base + url,
+                source: newspaper.name
+            })
         })
     })
-})
 })
 
 app.get('/', (req, res) => {
@@ -85,29 +85,29 @@ app.get('/', (req, res) => {
 })
 
 
-app.get('/news/:newspaperId',async (req,res)=>{
-  const newspaperId = req.params.newspaperId
-  const newspaperAddress =  newspapers.filter(newspaper => newspaper.name == newspaperId)[0].address
-  const nbase =             newspapers.filter( newspaper => newspaper.name == newspaperId)[0].base
-  axios.get(newspaperAddress).then(response => {
-    const html = response.data;
-    const $ = cheerio.load(html)
-    const specificArticles = []
-    $('a:contains("climate")',html).each(function() {
-        const title = $(this).text().trim();
-        const url = $(this).attr('href')
-        specificArticles.push({
-            title,
-            url: nbase + url,
-            source: newspaperId
+app.get('/news/:newspaperId', async (req, res) => {
+    const newspaperId = req.params.newspaperId
+    const newspaperAddress = newspapers.filter(newspaper => newspaper.name == newspaperId)[0].address
+    const nbase = newspapers.filter(newspaper => newspaper.name == newspaperId)[0].base
+    axios.get(newspaperAddress).then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html)
+        const specificArticles = []
+        $('a:contains("climate")', html).each(function () {
+            const title = $(this).text().trim();
+            const url = $(this).attr('href')
+            specificArticles.push({
+                title,
+                url: nbase + url,
+                source: newspaperId
+            })
         })
-    })
-    res.json(specificArticles)
-  }).catch(err => console.log(err))
+        res.json(specificArticles)
+    }).catch(err => console.log(err))
 })
 
 app.get('/news', (req, res) => {
-   res.json(articles)
+    res.json(articles)
 
 })
 
