@@ -1,0 +1,14 @@
+{
+  "name": "climate-change-api",
+  "version": "1.0.0",
+  "description": "My Api for climate-change",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "CodecAvi",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10"
+  }
+}
