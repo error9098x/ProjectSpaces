@@ -1,31 +1,15 @@
 
-#videoContainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
 
 #myVideo {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    min-width: 100%; 
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: -1000;
-    background-size: cover;
-    object-fit: cover;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%; 
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -1000;
+  background-size: cover;
+  object-fit: cover;
 }
 
-@media (max-width: 768px) {
-    #myVideo {
-      display: none;
-    }
-    #videoContainer {
-      background: url('poster.jpg') no-repeat center center / cover;
-    }
-  }
