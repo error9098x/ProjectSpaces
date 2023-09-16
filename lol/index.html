@@ -3,15 +3,37 @@
   <head>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
     <title>Happy Birthday</title>
   </head>
   <body>
+    <div id="countdown" class="text-center text-4xl font-bold m-5" style="background-color: #e96970; border-radius: 100px; color:white;"></div>
     <div id="videoContainer">
         <video autoplay muted loop id="myVideo">
           <source src="rupam.mp4" type="video/mp4">
         </video>
-      </div>
-      <iframe width="0" height="0" src="https://www.youtube.com/embed/J--rVWvLToM?autoplay=1&loop=1&playlist=J--rVWvLToM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <iframe width="0" height="0" src="https://www.youtube.com/embed/J--rVWvLToM?autoplay=1&loop=1&playlist=J--rVWvLToM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
+    <script>
+      const countDownDate = new Date("Sep 17, 2023 00:00:00").getTime();
+
+      const countdownInterval = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = countDownDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+        if (distance < 0) {
+          clearInterval(countdownInterval);
+          document.getElementById("countdown").innerHTML = "HAPPY BIRTHDAY!";
+        }
+      }, 1000);
+    </script>
   </body>
 </html>
